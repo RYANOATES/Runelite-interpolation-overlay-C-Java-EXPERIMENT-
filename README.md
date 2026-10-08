@@ -1,5 +1,7 @@
 # RuneLite Frame Interpolation Overlay
 
+This is very very early days and is just a fun thing I'm working on; don't use it as a final product. It's currently in development, and I'm taking measurements of actual results.
+
 A Windows companion overlay for RuneLite that creates an additional displayed image between captured client frames. It captures the RuneLite window, estimates pixel motion between consecutive images with OpenCV Farnebäck optical flow, warps both images toward an estimated midpoint, and displays the interpolated image in a transparent overlay.
 
 ## Requirements
