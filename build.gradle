@@ -1,0 +1,43 @@
+plugins {
+	id 'java'
+}
+
+repositories {
+	mavenLocal()
+	maven {
+		url = 'https://repo.runelite.net'
+		content {
+			includeGroupByRegex('net\\.runelite.*')
+		}
+	}
+	mavenCentral()
+}
+
+def runeLiteVersion = 'latest.release'
+
+dependencies {
+	compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+	testImplementation 'junit:junit:4.12'
+	testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
+}
+
+group = 'fsr'
+version = '0.1.0'
+
+// Keep compiler outputs outside OneDrive to avoid sync locks on class files.
+layout.buildDirectory = file("${System.getProperty('java.io.tmpdir')}/runelite-fsr-plugin-build")
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+	options.release.set(11)
+}
+
+tasks.register('runClient', JavaExec) {
+	dependsOn testClasses
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = 'fsr.FsrPluginTest'
+	jvmArgs '-ea', '-Xmx768m'
+	args '--developer-mode', '--disable-telemetry'
+}
