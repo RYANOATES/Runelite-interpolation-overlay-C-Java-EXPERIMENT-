@@ -4,6 +4,8 @@
 
 A Windows companion overlay for RuneLite that creates an additional displayed image between captured client frames. It captures the RuneLite window, estimates pixel motion between consecutive images with OpenCV Farnebäck optical flow, warps both images toward an estimated midpoint, and displays the interpolated image in a transparent overlay.
 
+This project is packaged to run alongside your separate **Sailing Hitch Finder** in one RuneLite development client. The Hitch Finder acts as a performance reviewer: it records RuneLite frame-time hitches and related client context while you compare sessions with the interpolation overlay enabled or disabled. It measures client frame callbacks rather than exact monitor presentation timing or the overlay's generated-image rate.
+
 ## Requirements
 
 - Windows 10 or 11
