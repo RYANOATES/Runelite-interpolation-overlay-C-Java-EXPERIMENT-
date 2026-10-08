@@ -23,6 +23,33 @@ dependencies {
 	testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
 }
 
+def hitchFinderJar = file("${System.getProperty('java.io.tmpdir')}/sailing-hitch-finder-build/libs/sailing-load-profiler-2.0.0.jar")
+
+// The Hitch Finder remains a separately built RuneLite plugin. This source
+// set only uses its built JAR as a runtime/compile dependency for the combined
+// development launcher.
+configurations {
+	combinedTestImplementation.extendsFrom testImplementation
+	combinedTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+sourceSets {
+	combinedTest {
+		java.srcDir 'src/combinedTest/java'
+		compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath + files(hitchFinderJar)
+		runtimeClasspath += output + compileClasspath
+	}
+}
+
+tasks.named('compileCombinedTestJava') {
+	doFirst {
+		if (!hitchFinderJar.isFile())
+		{
+			throw new GradleException("Sailing Hitch Finder JAR not found at ${hitchFinderJar}. Build it separately with .\\gradlew.bat jar in its own project folder.")
+		}
+	}
+}
+
 group = 'fsr'
 version = '0.1.0'
 
@@ -40,4 +67,14 @@ tasks.register('runClient', JavaExec) {
 	mainClass = 'fsr.FsrPluginTest'
 	jvmArgs '-ea', '-Xmx768m'
 	args '--developer-mode', '--disable-telemetry'
+}
+
+tasks.register('runClientWithHitchFinder', JavaExec) {
+	group = 'application'
+	description = 'Runs RuneLite with both the frame interpolation overlay and Sailing Hitch Finder.'
+	dependsOn tasks.named('combinedTestClasses')
+	classpath = sourceSets.combinedTest.runtimeClasspath
+	mainClass = 'fsr.CombinedRuneLiteLauncher'
+	jvmArgs '-ea', '-Xmx768m'
+	args '--developer-mode', '--disable-telemetry', '--debug'
 }

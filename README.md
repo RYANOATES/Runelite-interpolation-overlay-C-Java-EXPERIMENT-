@@ -40,3 +40,15 @@ cd ..\..
 4. Optionally configure the overlay toggle hotkey.
 
 The overlay captures the complete RuneLite client window. Its image processing includes both the game scene and client interface.
+
+## Run with Sailing Hitch Finder
+
+Build Sailing Hitch Finder separately from its own project folder with `.\gradlew.bat jar`. The combined launcher uses its standalone JAR from the temporary build directory; it does not copy or compile Hitch Finder source in this project.
+
+From this project folder, run:
+
+```powershell
+.\gradlew.bat runClientWithHitchFinder --no-daemon
+```
+
+This starts one RuneLite development client with both **Frame Interpolation Overlay (Experimental)** and **Sailing Hitch Finder** loaded. Enable the Hitch Finder in the plugin list and open its sidebar panel to record the run. Configure the overlay executable as described above. Close other development RuneLite sessions before starting this combined session.
