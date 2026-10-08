@@ -23,9 +23,9 @@ dependencies {
 	testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
 }
 
-def hitchFinderJar = file("${System.getProperty('java.io.tmpdir')}/sailing-hitch-finder-build/libs/sailing-load-profiler-2.0.0.jar")
+def hitchProfilerJar = file("${System.getProperty('java.io.tmpdir')}/runelite-hitch-profiler-build/libs/runelite-hitch-profiler-2.0.0.jar")
 
-// The Hitch Finder remains a separately built RuneLite plugin. This source
+// The profiler remains a separately built RuneLite plugin. This source
 // set only uses its built JAR as a runtime/compile dependency for the combined
 // development launcher.
 configurations {
@@ -36,16 +36,16 @@ configurations {
 sourceSets {
 	combinedTest {
 		java.srcDir 'src/combinedTest/java'
-		compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath + files(hitchFinderJar)
+		compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath + files(hitchProfilerJar)
 		runtimeClasspath += output + compileClasspath
 	}
 }
 
 tasks.named('compileCombinedTestJava') {
 	doFirst {
-		if (!hitchFinderJar.isFile())
+		if (!hitchProfilerJar.isFile())
 		{
-			throw new GradleException("Sailing Hitch Finder JAR not found at ${hitchFinderJar}. Build it separately with .\\gradlew.bat jar in its own project folder.")
+			throw new GradleException("RuneLite Hitch Profiler JAR not found at ${hitchProfilerJar}. Build it separately with .\\gradlew.bat jar in its own project folder.")
 		}
 	}
 }
@@ -69,9 +69,9 @@ tasks.register('runClient', JavaExec) {
 	args '--developer-mode', '--disable-telemetry'
 }
 
-tasks.register('runClientWithHitchFinder', JavaExec) {
+tasks.register('runClientWithHitchProfiler', JavaExec) {
 	group = 'application'
-	description = 'Runs RuneLite with both the frame interpolation overlay and Sailing Hitch Finder.'
+	description = 'Runs RuneLite with both the frame interpolation overlay and RuneLite Hitch Profiler.'
 	dependsOn tasks.named('combinedTestClasses')
 	classpath = sourceSets.combinedTest.runtimeClasspath
 	mainClass = 'fsr.CombinedRuneLiteLauncher'

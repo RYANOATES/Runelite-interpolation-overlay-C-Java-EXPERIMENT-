@@ -2,7 +2,7 @@ package fsr;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
-import sailingloadprofiler.SailingLoadProfilerPlugin;
+import runelitehitchprofiler.RuneLiteHitchProfilerPlugin;
 
 public final class CombinedRuneLiteLauncher
 {
@@ -12,7 +12,7 @@ public final class CombinedRuneLiteLauncher
 
 	public static void main(String[] args) throws Exception
 	{
-		ExternalPluginManager.loadBuiltin(FsrPlugin.class, SailingLoadProfilerPlugin.class);
+		ExternalPluginManager.loadBuiltin(FsrPlugin.class, RuneLiteHitchProfilerPlugin.class);
 		RuneLite.main(args);
 	}
 }

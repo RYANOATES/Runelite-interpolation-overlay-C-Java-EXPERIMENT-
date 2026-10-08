@@ -4,7 +4,7 @@
 
 A Windows companion overlay for RuneLite that creates an additional displayed image between captured client frames. It captures the RuneLite window, estimates pixel motion between consecutive images with OpenCV Farnebäck optical flow, warps both images toward an estimated midpoint, and displays the interpolated image in a transparent overlay.
 
-This project is packaged to run alongside your separate **Sailing Hitch Finder** in one RuneLite development client. The Hitch Finder acts as a performance reviewer: it records RuneLite frame-time hitches and related client context while you compare sessions with the interpolation overlay enabled or disabled. It measures client frame callbacks rather than exact monitor presentation timing or the overlay's generated-image rate.
+The development launcher runs the interpolation overlay alongside the **RuneLite Hitch Profiler** plugin in one RuneLite client. The profiler acts as a performance reviewer: it records RuneLite frame-time hitches and related client context while you compare sessions with the interpolation overlay enabled or disabled. It measures client frame callbacks rather than exact monitor presentation timing or the overlay's generated-image rate.
 
 ## Requirements
 
@@ -43,14 +43,14 @@ cd ..\..
 
 The overlay captures the complete RuneLite client window. Its image processing includes both the game scene and client interface.
 
-## Run with Sailing Hitch Finder
+## Run with RuneLite Hitch Profiler
 
-Build Sailing Hitch Finder separately from its own project folder with `.\gradlew.bat jar`. The combined launcher uses its standalone JAR from the temporary build directory; it does not copy or compile Hitch Finder source in this project.
+Build RuneLite Hitch Profiler separately from its own project folder with `.\gradlew.bat jar`. The combined launcher uses its standalone JAR from the temporary build directory; it does not copy or compile profiler source in this project.
 
 From this project folder, run:
 
 ```powershell
-.\gradlew.bat runClientWithHitchFinder --no-daemon
+.\gradlew.bat runClientWithHitchProfiler --no-daemon
 ```
 
-This starts one RuneLite development client with both **Frame Interpolation Overlay (Experimental)** and **Sailing Hitch Finder** loaded. Enable the Hitch Finder in the plugin list and open its sidebar panel to record the run. Configure the overlay executable as described above. Close other development RuneLite sessions before starting this combined session.
+This starts one RuneLite development client with both **Frame Interpolation Overlay (Experimental)** and **RuneLite Hitch Profiler** loaded. Enable RuneLite Hitch Profiler in the plugin list and open its sidebar panel to record the run. Configure the overlay executable as described above. Close other development RuneLite sessions before starting this combined session.
